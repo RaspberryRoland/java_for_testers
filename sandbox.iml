@@ -5,6 +5,7 @@
     <content url="file://$MODULE_DIR$/java_for_testers/sandbox">
       <excludeFolder url="file://$MODULE_DIR$/java_for_testers/sandbox/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/java_for_testers/sandbox/build" />
+      <excludeFolder url="file://$MODULE_DIR$/java_for_testers/sandbox/out" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
