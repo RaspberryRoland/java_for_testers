@@ -50,20 +50,59 @@ public class TriangleTests {
     }
     @Test
     void testEquality(){
-        var t1 = new Triangle(5.0, 4.0, 3.0);
-        var t2 = new Triangle(5.0, 4.0, 3.0);
+        var a = 5.0;
+        var b = 4.0;
+        var c = 3.0;
+        var t1 = new Triangle(a, b, c);
+        var t2 = new Triangle(a, b, c);
         Assertions.assertEquals(t1, t2);
     }
     @Test
     void testEquality2(){
-        var t1 = new Triangle(5.0, 4.0, 3.0);
-        var t2 = new Triangle(4.0, 3.0, 5.0);
+        var a = 5.0;
+        var b = 4.0;
+        var c = 3.0;
+        var t1 = new Triangle(a, b, c);
+        var t2 = new Triangle(a, c, b);
         Assertions.assertEquals(t1, t2);
     }
     @Test
     void testEquality3(){
-        var t1 = new Triangle(5.0, 4.0, 3.0);
-        var t2 = new Triangle(3.0, 5.0, 4.0);
+        var a = 5.0;
+        var b = 4.0;
+        var c = 3.0;
+        var t1 = new Triangle(a, b, c);
+        var t2 = new Triangle(b, a, c);
+        Assertions.assertEquals(t1, t2);
+    }
+
+    @Test
+    void testEquality4(){
+        var a = 5.0;
+        var b = 4.0;
+        var c = 3.0;
+        var t1 = new Triangle(a, b, c);
+        var t2 = new Triangle(b, c, a);
+        Assertions.assertEquals(t1, t2);
+    }
+
+    @Test
+    void testEquality5(){
+        var a = 5.0;
+        var b = 4.0;
+        var c = 3.0;
+        var t1 = new Triangle(a, b, c);
+        var t2 = new Triangle(c, a, b);
+        Assertions.assertEquals(t1, t2);
+    }
+
+    @Test
+    void testEquality6(){
+        var a = 5.0;
+        var b = 4.0;
+        var c = 3.0;
+        var t1 = new Triangle(a, b, c);
+        var t2 = new Triangle(c, b, a);
         Assertions.assertEquals(t1, t2);
     }
 }
