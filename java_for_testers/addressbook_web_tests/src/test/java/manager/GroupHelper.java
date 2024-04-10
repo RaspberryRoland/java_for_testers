@@ -4,43 +4,33 @@ import model.GroupData;
 import org.openqa.selenium.By;
 
 public class GroupHelper {
-    private final ApplicationManager manager;
-
-    public GroupHelper(ApplicationManager manager){
-
-        this.manager = manager;
-    }
 
     public void openGroupPage() {
-        if (!manager.isElementPresent(By.name("new"))) {
-            manager.driver.findElement(By.linkText("groups")).click();
+        if (!HelperBase.manager.isElementPresent(By.name("new"))) {
+            HelperBase.clickOnTheElementByLinkText("groups");
         }
     }
 
     public boolean isGroupPresent() {
         openGroupPage();
-        return manager.isElementPresent(By.name("selected[]"));
+        return HelperBase.manager.isElementPresent(By.name("selected[]"));
     }
 
     public void createGroup(GroupData group) {
         openGroupPage();
-        manager.driver.findElement(By.name("new")).click();
-        clickOnTheElement("group_name");
-        manager.driver.findElement(By.name("group_name")).sendKeys(group.name());
-        manager.driver.findElement(By.name("group_header")).click();
-        manager.driver.findElement(By.name("group_header")).sendKeys(group.header());
-        manager.driver.findElement(By.name("submit")).click();
-        manager.driver.findElement(By.linkText("groups")).click();
-    }
-
-    private void clickOnTheElement(String ElementName) {
-        manager.driver.findElement(By.name(ElementName)).click();
+        HelperBase.clickOnTheElementByName("new");
+        HelperBase.clickOnTheElementByName("group_name");
+        HelperBase.sendGroupNameByName("group_name", group);
+        HelperBase.clickOnTheElementByName("group_header");
+        HelperBase.sendGroupHeaderByName("group_header", group);
+        HelperBase.clickOnTheElementByName("submit");
+        HelperBase.clickOnTheElementByLinkText("groups");
     }
 
     public void removeGroup() {
         openGroupPage();
-        manager.driver.findElement(By.name("selected[]")).click();
-        manager.driver.findElement(By.name("delete")).click();
-        manager.driver.findElement(By.linkText("group page")).click();
+        HelperBase.clickOnTheElementByName("selected[]");
+        HelperBase.clickOnTheElementByName("delete");
+        HelperBase.clickOnTheElementByLinkText("group page");
     }
 }
