@@ -4,32 +4,20 @@ import model.GroupData;
 import org.openqa.selenium.By;
 
 public class HelperBase {
-    public static ApplicationManager manager;
-    public HelperBase(ApplicationManager manager){
 
+    public static ApplicationManager manager;
+
+    public HelperBase(ApplicationManager manager) {
         this.manager = manager;
     }
 
-    public static void clickOnTheElementByName(String ElementName) {
-        manager.driver.findElement(By.name(ElementName)).click();
+    protected static void click(By locator) {
+        manager.driver.findElement(locator).click();
     }
 
-    public static void clickOnTheElementByLinkText(String ElementText) {
-        manager.driver.findElement(By.linkText(ElementText)).click();
-    }
-
-    static void clickOnTheElementByXpath(String Xpath) {
-        manager.driver.findElement(By.xpath(Xpath)).click();
-    }
-
-    static void sendStringByName(String name, String send) {
-        manager.driver.findElement(By.name(name)).sendKeys(send);
-    }
-
-    static void sendGroupNameByName(String name, GroupData data) {
-        manager.driver.findElement(By.name(name)).sendKeys(data.name());
-    }
-    static void sendGroupHeaderByName(String name, GroupData data) {
-        manager.driver.findElement(By.name(name)).sendKeys(data.header());
+    protected static void type(By locator, String text) {
+        click(locator);
+        manager.driver.findElement(locator).clear();
+        manager.driver.findElement(locator).sendKeys(text);
     }
 }
