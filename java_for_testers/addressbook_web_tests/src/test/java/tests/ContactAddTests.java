@@ -1,18 +1,39 @@
 package tests;
 
 import model.AddressBookData;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactAddTests extends TestBase {
 
-    @Test
-    void canAddContactWithBaseStrings() {
-        app.contacts().createContact(new AddressBookData("TestfirstName123", "", "TestlastName123",
-                "", "", "testaddress123", "", "testmobile123", "testemail123"));
+
+    public static List<AddressBookData> contactProvider() {
+        var result = new ArrayList<AddressBookData>();
+
+        for (var firstName : List.of("TestFirstName123", "")) {
+            for (var email : List.of("", "testemail123")) {
+                result.add(new AddressBookData(firstName,
+                        "", "", "", "", "", "", "",
+                        email));
+            }
+        }
+        for (int i = 0; i < 5; i++) {
+            result.add(new AddressBookData(randomString(i * 10), "", "", "", "",
+                    "", "", "", randomString(i * 10)));
+        }
+        return result;
     }
 
-    @Test
-    void canAddContactWithEmptyStrings() {
-        app.contacts().createContact(new AddressBookData());
+    @ParameterizedTest
+    @MethodSource("contactProvider")
+    public void canCreateMultipleContacts(AddressBookData contact) {
+        int contactCount = app.contacts().getCount();
+        app.contacts().createContact(contact);
+        int newContactCount = app.contacts().getCount();
+        Assertions.assertEquals(contactCount + 1, newContactCount);
     }
 }
