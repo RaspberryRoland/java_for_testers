@@ -1,7 +1,11 @@
 package manager;
 
 import model.AddressBookData;
+import model.GroupData;
 import org.openqa.selenium.By;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
     public ContactHelper(ApplicationManager manager) {
@@ -78,7 +82,7 @@ public class ContactHelper extends HelperBase {
         }
     }
 
-    private static void returnToHomePage() {
+    public static void returnToHomePage() {
         if (!manager.isElementPresent(By.linkText("Send e-Mail"))) {
             click(By.linkText("home"));
         }
@@ -89,9 +93,9 @@ public class ContactHelper extends HelperBase {
     }
 
 
-    public void removeContact() {
+    public void removeContact(AddressBookData contact) {
         returnToHomePage();
-        selectContact();
+        selectContact(contact);
         removeSelectedContacts();
         returnToHomePage();
     }
@@ -100,8 +104,8 @@ public class ContactHelper extends HelperBase {
         click(By.xpath("//input[@value=\'Delete\']"));
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(AddressBookData contact) {
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     public int getCount() {
@@ -119,5 +123,18 @@ public class ContactHelper extends HelperBase {
         for (var checkbox : checkboxes) {
             checkbox.click();
         }
+    }
+
+    public List<AddressBookData> getList() {
+        var contacts = new ArrayList<AddressBookData>();
+        var trs = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
+        for (var tr : trs){
+            var firstName = tr.findElement(By.xpath(".//td[3]")).getText();
+            var lastName = tr.findElement(By.xpath(".//td[2]")).getText();
+            var checkbox = tr.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("value");
+            contacts.add(new AddressBookData().withId(id).withFirstNameAndLastNameOnly(firstName, lastName));
+        }
+        return contacts;
     }
 }
