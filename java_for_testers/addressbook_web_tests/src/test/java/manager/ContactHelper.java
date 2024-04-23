@@ -24,6 +24,11 @@ public class ContactHelper extends HelperBase {
         addEmail(contact);
     }
 
+    private void editContactForm(AddressBookData contact) {
+        addFirstName(contact);
+        addLastName(contact);
+    }
+
     private static void addEmail(AddressBookData contact) {
         click(By.name("email"));
         type(By.name("email"), contact.email());
@@ -136,5 +141,21 @@ public class ContactHelper extends HelperBase {
             contacts.add(new AddressBookData().withId(id).withFirstNameAndLastNameOnly(firstName, lastName));
         }
         return contacts;
+    }
+
+    public void modifyContact(AddressBookData contact, AddressBookData modifiedContact) {
+        returnToHomePage();
+        initContactModification(contact);
+        editContactForm(modifiedContact);
+        submitContactModification();
+        returnToHomePage();
+    }
+
+    private void submitContactModification() {
+        click(By.xpath("//*[@id='content']//input[@value='Update']"));
+    }
+
+    private void initContactModification(AddressBookData contact) {
+        click(By.xpath(String.format("//tr/td/a[@href=\"edit.php?id=%s\"]", contact.id())));
     }
 }
