@@ -1,7 +1,9 @@
 package tests;
 
+import common.CommonFunctions;
 import model.AddressBookData;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -9,10 +11,15 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import static manager.ContactHelper.returnToHomePage;
-
 public class ContactAddTests extends TestBase {
 
+    @Test
+    void canCreateContact(){
+        var contact = new AddressBookData()
+                .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10))
+                .withPhoto(randomFile("src/test/resources/images"));
+        app.contacts().createContact(contact);
+    }
 
     public static List<AddressBookData> contactProvider() {
         var result = new ArrayList<AddressBookData>();
@@ -21,7 +28,7 @@ public class ContactAddTests extends TestBase {
             for (var lastName : List.of("", "testLastName123")) {
                 result.add(new AddressBookData("", firstName,
                         "", lastName, "", "", "", "", "",
-                        ""));
+                        "", ""));
             }
         }
 //        for (int i = 0; i < 5; i++) {

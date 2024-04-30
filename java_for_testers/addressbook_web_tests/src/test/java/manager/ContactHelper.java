@@ -22,6 +22,7 @@ public class ContactHelper extends HelperBase {
         addHome(contact);
         addMobile(contact);
         addEmail(contact);
+        attach(By.name("photo"),contact.photo());
     }
 
     private void editContactForm(AddressBookData contact) {
