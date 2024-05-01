@@ -1,12 +1,18 @@
 package tests;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import common.CommonFunctions;
 import model.AddressBookData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -21,17 +27,32 @@ public class ContactAddTests extends TestBase {
         app.contacts().createContact(contact);
     }
 
-    public static List<AddressBookData> contactProvider() {
+    public static List<AddressBookData> contactProvider() throws IOException {
         var result = new ArrayList<AddressBookData>();
 
-        for (var firstName : List.of("TestFirstName123", "")) {
-            for (var lastName : List.of("", "testLastName123")) {
-                result.add(new AddressBookData("", firstName,
-                        "", lastName, "", "", "", "", "",
-                        "", ""));
-            }
-        }
-//        for (int i = 0; i < 5; i++) {
+//        var json = "";
+//        try (var reader = new FileReader("groups.json");
+//        var breader = new BufferedReader(reader)
+//        ){
+//            var line = breader.readLine();
+//            while (line != null){
+//                json = json + line;
+//                line = breader.readLine();
+//            }
+//        }
+//        var json = Files.readString(Paths.get("groups.json"));
+        var mapper = new JsonMapper();
+        var value = mapper.readValue(new File("contacts.json"), new TypeReference<List<AddressBookData>>() {} );
+        result.addAll(value);
+
+//        for (var firstName : List.of("TestFirstName123", "")) {
+//            for (var lastName : List.of("", "testLastName123")) {
+//                result.add(new AddressBookData("", firstName,
+//                        "", lastName, "", "", "", "", "",
+//                        "", ""));
+//            }
+//        }
+////        for (int i = 0; i < 5; i++) {
 //            result.add(new AddressBookData("", randomString(i * 10), "", "", "", "",
 //                    "", "", "", randomString(i * 10)));
 //        }
