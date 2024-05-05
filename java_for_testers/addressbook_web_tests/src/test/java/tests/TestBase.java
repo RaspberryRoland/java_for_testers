@@ -1,6 +1,7 @@
 package tests;
 
 import manager.ApplicationManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.File;
@@ -30,5 +31,10 @@ public class TestBase {
         var rnd = new Random();
         var index = rnd.nextInt(fileNames.length);
         return Paths.get(dir, fileNames[index]).toString();
+    }
+
+    @AfterEach
+    void checkDataBaseConsistency(){
+        app.jdbc().checkConsistency();
     }
 }

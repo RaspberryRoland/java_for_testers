@@ -23,6 +23,21 @@ public record AddressBookData(String id, String firstName, String middleName, St
                 this.title, this.address, this.home, this.mobile, this.email, this.photo);
     }
 
+    public AddressBookData withFirstname(String firstName) {
+        return new AddressBookData(this.id, firstName, this.middleName, this.lastName, this.nickName,
+                this.title, this.address, this.home, this.mobile, this.email, this.photo);
+    }
+
+    public AddressBookData withLastname(String lastName) {
+        return new AddressBookData(this.id, this.firstName, this.middleName, lastName, this.nickName,
+                this.title, this.address, this.home, this.mobile, this.email, this.photo);
+    }
+
+    public AddressBookData withAddress(String address) {
+        return new AddressBookData(this.id, this.firstName, this.middleName, this.lastName, this.nickName,
+                this.title, address, this.home, this.mobile, this.email, this.photo);
+    }
+
     public AddressBookData withPhoto(String photo) {
         return new AddressBookData(this.id, this.firstName, this.middleName, this.lastName, this.nickName,
                 this.title, this.address, this.home, this.mobile, this.email, photo);
