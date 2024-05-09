@@ -19,6 +19,9 @@ public class GroupRecord {
     @Column(name = "group_header")
     public String header;
 
+    @Column(name = "group_footer")
+    public String footer;
+
     public Date deprecated = new Date();
 
     public GroupRecord(){
@@ -30,10 +33,11 @@ public class GroupRecord {
             inverseJoinColumns = @JoinColumn(name = "id"))
     public List<ContactRecord> contacts;
 
-    public GroupRecord(int id, String name, String header){
+    public GroupRecord(int id, String name, String header, String footer){
 
         this.id = id;
         this.name = name;
         this.header = header;
+        this.footer = footer;
     }
 }

@@ -34,12 +34,32 @@ public class ContactAddTests extends TestBase {
                 .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10))
                 .withPhoto(randomFile("src/test/resources/images"));
         if (app.hbm().getGroupCount() == 0){
-            app.hbm().createGroup(new GroupData("", "name", "header"));
+            app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
         }
         var group = app.hbm().getGroupList().get(0);
 
         var oldRelated = app.hbm().getContactsInGroup(group);
         app.contacts().createContact(contact, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+
+    }
+
+    @Test
+    void canAddContactToGroup(){
+//        var contact = new AddressBookData()
+//                .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10))
+//                .withPhoto(randomFile("src/test/resources/images"));
+        if (app.hbm().getGroupCount() == 0){
+            app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
+        }
+        if (app.contacts().getCount() == 0) {
+            app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+        var cont = app.hbm().getContactList().get(0);
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().addContact(cont, group);
         var newRelated = app.hbm().getContactsInGroup(group);
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
 

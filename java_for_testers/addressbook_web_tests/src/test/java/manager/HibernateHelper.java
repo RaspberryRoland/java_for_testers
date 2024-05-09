@@ -35,7 +35,7 @@ public class HibernateHelper extends HelperBase{
     }
 
     private static GroupData convert(GroupRecord record) {
-        return new GroupData("" + record.id, record.name, record.header);
+        return new GroupData("" + record.id, record.name, record.header, record.footer);
     }
 
     private static GroupRecord convert(GroupData data) {
@@ -43,7 +43,7 @@ public class HibernateHelper extends HelperBase{
         if("".equals(id)){
             id = "0";
         }
-        return new GroupRecord(Integer.parseInt(id), data.name(), data.header());
+        return new GroupRecord(Integer.parseInt(id), data.name(), data.header(), data.footer());
     }
 
     public List<GroupData> getGroupList() {

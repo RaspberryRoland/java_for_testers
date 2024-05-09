@@ -19,7 +19,7 @@ public class ContactHelper extends HelperBase {
         addLastName(contact);
         addNickName(contact);
         addTitle(contact);
-        addContact(contact);
+        addAddress(contact);
         addHome(contact);
         addMobile(contact);
         addEmail(contact);
@@ -48,7 +48,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("home"), contact.home());
     }
 
-    private static void addContact(AddressBookData contact) {
+    private static void addAddress(AddressBookData contact) {
         click(By.name("address"));
         type(By.name("address"), contact.address());
     }
@@ -173,5 +173,36 @@ public class ContactHelper extends HelperBase {
 
     private void initContactModification(AddressBookData contact) {
         click(By.xpath(String.format("//tr/td/a[@href=\"edit.php?id=%s\"]", contact.id())));
+    }
+
+    public void addContact(AddressBookData cont, GroupData group) {
+        returnToHomePage();
+        selectContact(cont);
+        selectGroupToAdd(group);
+        addContactToSelectedGroup();
+        returnToHomePage();
+    }
+
+    private void addContactToSelectedGroup() {
+        click(By.xpath("//*[@name='add'][@value='Add to']"));
+    }
+
+    private void selectGroupToAdd(GroupData group) {
+        click(By.xpath("//*[@name='to_group']/option[1]"));
+    }
+
+    public void deleteContactFromGroup( AddressBookData contact, GroupData group){
+        selectGroupFromAbove(group);
+        selectContact(contact);
+        removeSelectedContact();
+        returnToHomePage();
+    }
+
+    private void removeSelectedContact() {
+        click(By.xpath("//*[@type='submit'][@name='remove']"));
+    }
+
+    private void selectGroupFromAbove(GroupData group) {
+        click(By.xpath("//*[@name='group']/option[3]"));
     }
 }

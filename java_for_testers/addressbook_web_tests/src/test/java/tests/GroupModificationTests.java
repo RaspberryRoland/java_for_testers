@@ -13,7 +13,7 @@ public class GroupModificationTests extends TestBase{
     @Test
     void canModifyGroup(){
         if (app.hbm().getGroupCount() == 0){
-            app.hbm().createGroup(new GroupData("", "name", "header"));
+            app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
         }
         var oldGroups = app.hbm().getGroupList();
         var rnd = new Random();
