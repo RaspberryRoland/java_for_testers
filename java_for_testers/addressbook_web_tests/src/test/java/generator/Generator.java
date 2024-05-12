@@ -15,6 +15,9 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Generator {
 
@@ -78,22 +81,19 @@ public class Generator {
         }
     }
 
+    private Object generateData(Supplier<Object> dataSupplier){
+        return Stream.generate(dataSupplier).limit(count).collect(Collectors.toList());
+    }
+
     private Object generateContacts() {
-        var result = new ArrayList<AddressBookData>();
-        for (int i = 0; i < count; i ++){
-            result.add(new AddressBookData()
-                    .withFirstNameAndLastNameOnly(CommonFunctions.randomString(i * 10), CommonFunctions.randomString(i * 10)));
-        }
-        return result;
+        return generateData(() -> new AddressBookData()
+                .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10)));
+
     }
 
     private Object generateGroups() {
-        var result = new ArrayList<GroupData>();
-        for (int i = 0; i < count; i++) {
-            result.add(new GroupData()
-                    .withName(CommonFunctions.randomString(i * 10))
-                    .withHeader(CommonFunctions.randomString(i * 10)));
-        }
-        return result;
+        return generateData(() -> new GroupData()
+                .withName(CommonFunctions.randomString(10))
+                .withHeader(CommonFunctions.randomString(10)));
     }
 }
