@@ -2,7 +2,6 @@ package tests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import common.CommonFunctions;
 import model.AddressBookData;
 import model.GroupData;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 public class ContactAddTests extends TestBase {
 
@@ -50,6 +48,7 @@ public class ContactAddTests extends TestBase {
 //        var contact = new AddressBookData()
 //                .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10))
 //                .withPhoto(randomFile("src/test/resources/images"));
+        app.contacts().checkContactsWithoutGroups();
         if (app.hbm().getGroupCount() == 0){
             app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
         }

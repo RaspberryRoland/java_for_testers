@@ -246,4 +246,8 @@ public class ContactHelper extends HelperBase {
         }
         return result;
     }
+
+    public void checkContactsWithoutGroups() {
+        click(By.xpath("//*[@name='group']/option[@value='[none]']"));
+    }
 }
