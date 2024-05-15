@@ -1,8 +1,8 @@
 package manager.hbm;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "addressbook")
@@ -35,6 +35,12 @@ public class ContactRecord {
     public ContactRecord(){
 
     }
+
+    @ManyToMany
+    @JoinTable(name = "address_in_groups",
+            joinColumns = @JoinColumn(name = "group_id"),
+            inverseJoinColumns = @JoinColumn(name = "id"))
+    public List<ContactRecord> groups;
 
     public ContactRecord(int id, String firstname, String lastname, String address){
         this.id = id;

@@ -56,8 +56,22 @@ public class ContactAddTests extends TestBase {
             app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
         }
         var group = app.hbm().getGroupList().get(0);
-        var cont = app.hbm().getContactList().get(0);
-        var oldRelated = app.hbm().getContactsInGroup(group);
+//        var cont = app.hbm().getContactList().get(0);
+        var groupSize = app.hbm().getGroupCount();
+        var contactSize = app.hbm().getContactList().size();
+        int count = 0;
+        for (int i = 0; i < contactSize; i++) {
+            var cont = app.hbm().getContactList().get(i);
+            if (app.hbm().getContactGroup(cont).size() < groupSize){
+                cont = app.hbm().getContactList().get(0);
+                count++;
+                break;
+            }
+        }
+        if (count == 0) {
+            app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
+        }
+        var oldRelated = app.hbm().getContactGroup();
         app.contacts().addContact(cont, group);
         var newRelated = app.hbm().getContactsInGroup(group);
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
