@@ -9,7 +9,7 @@ public record MailMessage(String from, String content) {
         return new MailMessage(from, this.content);
     }
 
-    public MailMessage withContent(String from){
+    public MailMessage withContent(String content){
         return new MailMessage(this.from, content);
     }
 }
