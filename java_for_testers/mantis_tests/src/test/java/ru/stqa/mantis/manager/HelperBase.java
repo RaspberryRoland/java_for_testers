@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 import java.nio.file.Paths;
 
 public class HelperBase {
-    protected final ApplicationManager manager;
+    public static ApplicationManager manager;
 
     public HelperBase(ApplicationManager manager) {
         this.manager = manager;

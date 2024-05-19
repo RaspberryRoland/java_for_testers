@@ -2,6 +2,7 @@ package ru.stqa.mantis.manager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -9,16 +10,19 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.Properties;
 
 public class ApplicationManager {
-    private WebDriver driver;
+    protected WebDriver driver;
     private String string;
     private Properties properties;
 
     private SessionHelper sessionHelper;
+    private HttpSessionHelper httpSessionHelper;
+    private JamesCliHelper jamesCliHelper;
+    private MailHelper mailHelper;
 
     public void init(String browser, Properties properties) {
         this.string = browser;
         this.properties = properties;
-        
+
     }
 
     public WebDriver driver(){
@@ -43,5 +47,39 @@ public class ApplicationManager {
             sessionHelper = new SessionHelper(this);
         }
         return sessionHelper;
+    }
+
+    public HttpSessionHelper http() {
+        if(httpSessionHelper == null){
+            httpSessionHelper = new HttpSessionHelper(this);
+        }
+        return httpSessionHelper;
+    }
+
+    public JamesCliHelper jamesCli() {
+        if(jamesCliHelper == null){
+            jamesCliHelper = new JamesCliHelper(this);
+        }
+        return jamesCliHelper;
+    }
+
+    public MailHelper mail() {
+        if(mailHelper == null){
+            mailHelper = new MailHelper(this);
+        }
+        return mailHelper;
+    }
+
+    protected boolean isElementPresent(By locator) {
+        try {
+            driver.findElement(locator);
+            return true;
+        } catch (NoSuchElementException exception) {
+            return false;
+        }
+    }
+
+    public String property(String name){
+        return properties.getProperty(name);
     }
 }
