@@ -2,6 +2,9 @@ package ru.stqa.mantis.manager;
 
 import org.openqa.selenium.By;
 
+import java.time.Duration;
+import java.util.regex.Pattern;
+
 public class SessionHelper extends HelperBase{
     public SessionHelper(ApplicationManager manager){
         super(manager);
@@ -30,7 +33,7 @@ public class SessionHelper extends HelperBase{
 
     public void fillUsernameAndEmail(String email, String username) {
         type(By.name("username"), username);
-        type(By.name("password"), email);
+        type(By.name("email"), email);
         click(By.xpath("//*[@type='submit']"));
     }
 
@@ -41,6 +44,12 @@ public class SessionHelper extends HelperBase{
     }
 
     public void finishRegistration(String email){
-
+        var messages = manager.mail().receive(email, "password", Duration.ofMillis(10000));
+        var text = messages.get(0).content();
+        var pattern = Pattern.compile("http://\\S*");
+        var matcher = pattern.matcher(text);
+        var url = text.substring(matcher.start(), matcher.end());
+        manager.driver.navigate().to(url);
     }
+
 }

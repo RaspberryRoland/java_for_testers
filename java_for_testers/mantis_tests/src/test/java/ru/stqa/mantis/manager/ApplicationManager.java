@@ -72,7 +72,7 @@ public class ApplicationManager {
 
     protected boolean isElementPresent(By locator) {
         try {
-            driver.findElement(locator);
+            driver().findElement(locator);
             return true;
         } catch (NoSuchElementException exception) {
             return false;

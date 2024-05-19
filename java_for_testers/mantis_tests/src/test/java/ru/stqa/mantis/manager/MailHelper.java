@@ -30,7 +30,8 @@ public class MailHelper extends HelperBase{
                             } catch (MessagingException | IOException e) {
                                 throw new RuntimeException(e);
                             }
-                        }).toList();
+                        })
+                        .toList();
                 inbox.close();
                 inbox.getStore().close();
                 if (result.size() > 0){
@@ -51,8 +52,7 @@ public class MailHelper extends HelperBase{
     private static Folder getInbox(String username, String password) {
         try {
             var session = Session.getInstance(new Properties());
-            Store store = null;
-            store = session.getStore("pop3");
+            Store store = session.getStore("pop3");
             store.connect("localhost", username, password);
             var inbox = store.getFolder("INBOX");
             return inbox;
