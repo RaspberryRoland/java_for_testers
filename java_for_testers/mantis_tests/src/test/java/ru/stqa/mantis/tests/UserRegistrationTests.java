@@ -6,6 +6,8 @@ import ru.stqa.mantis.manager.JamesCliHelper;
 
 import java.time.Duration;
 
+import static org.openqa.selenium.devtools.v85.debugger.Debugger.pause;
+
 public class UserRegistrationTests extends TestBase{
 
     @Test
@@ -17,10 +19,10 @@ public class UserRegistrationTests extends TestBase{
         app.jamesCli().addUser(email,"password");
 
         // заполняем форму создания и отправляем (браузер)
-        app.sessionHelper().fillRegistrationForm(email, CommonFunctions.randomString(5));
+        app.sessionHelper().fillRegistrationForm(email, username);
 
         // ждем почту (MailHelper)
-        app.mail().receive(email, "password", Duration.ofMillis(10000));
+        app.mail().receive(email, "password", Duration.ofSeconds(20));
 
         // извлекаем ссылку из письма
         // проходим по ссылке и завершаем регистрацию пользователя (браузер)

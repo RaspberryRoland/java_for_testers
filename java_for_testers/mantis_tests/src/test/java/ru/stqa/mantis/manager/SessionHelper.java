@@ -45,10 +45,19 @@ public class SessionHelper extends HelperBase{
 
     public void finishRegistration(String email){
         var messages = manager.mail().receive(email, "password", Duration.ofMillis(10000));
+        System.out.println("This is messages " + messages);
         var text = messages.get(0).content();
-        var pattern = Pattern.compile("http://\\S*");
+        System.out.println("This is text " + text);
+        var pattern = Pattern.compile("http://\\S+");
         var matcher = pattern.matcher(text);
-        var url = text.substring(matcher.start(), matcher.end());
+        System.out.println("THIS IS MATCHER " + matcher);
+        String url = "";
+        if(matcher.find()){
+            url = text.substring(matcher.start(), matcher.end());
+            System.out.println("This is url " + url);
+        }
+//        var url = text.substring(matcher.start(), matcher.end());
+        System.out.println("THIS IS URL " + url);
         manager.driver.navigate().to(url);
     }
 

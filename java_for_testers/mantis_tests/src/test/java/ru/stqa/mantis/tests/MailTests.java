@@ -26,9 +26,10 @@ public class MailTests extends TestBase{
         var text = messages.get(0).content();
         var pattern = Pattern.compile("http://\\S*");
         var matcher = pattern.matcher(text);
+        System.out.println("This is matcher " + matcher);
         if(matcher.find()){
             var url = text.substring(matcher.start(), matcher.end());
-            System.out.println(url);
+            System.out.println("This is url " + url);
         }
     }
 }
