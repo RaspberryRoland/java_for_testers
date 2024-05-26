@@ -18,6 +18,11 @@ public class ApplicationManager {
     private HttpSessionHelper httpSessionHelper;
     private JamesCliHelper jamesCliHelper;
     private MailHelper mailHelper;
+    private JamesApiHelper jamesApiHelper;
+    private DeveloperMailHelper developerMailHelper;
+    private UserHelper userHelper;
+    private RestApiHelper restApiHelper;
+    private MantisApiHelper mantisApiHelper;
 
     public void init(String browser, Properties properties) {
         this.string = browser;
@@ -70,6 +75,34 @@ public class ApplicationManager {
         return mailHelper;
     }
 
+    public JamesApiHelper jamesApi() {
+        if(jamesApiHelper == null){
+            jamesApiHelper = new JamesApiHelper(this);
+        }
+        return jamesApiHelper;
+    }
+
+    public MantisApiHelper mantisApi() {
+        if(mantisApiHelper == null){
+            mantisApiHelper = new MantisApiHelper(this);
+        }
+        return mantisApiHelper;
+    }
+
+    public DeveloperMailHelper developerMail() {
+        if(developerMailHelper == null){
+            developerMailHelper = new DeveloperMailHelper(this);
+        }
+        return developerMailHelper;
+    }
+
+    public UserHelper user(){
+        if(userHelper == null){
+            userHelper = new UserHelper(this);
+        }
+        return userHelper;
+    }
+
     protected boolean isElementPresent(By locator) {
         try {
             driver().findElement(locator);
@@ -81,5 +114,12 @@ public class ApplicationManager {
 
     public String property(String name){
         return properties.getProperty(name);
+    }
+
+    public RestApiHelper rest() {
+        if(restApiHelper == null){
+            restApiHelper = new RestApiHelper(this);
+        }
+        return restApiHelper;
     }
 }

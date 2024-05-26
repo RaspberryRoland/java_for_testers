@@ -1,0 +1,26 @@
+package ru.stqa.mantis.manager;
+
+import org.openqa.selenium.By;
+
+public class UserHelper extends HelperBase{
+    public UserHelper(ApplicationManager manager) {
+        super(manager);
+    }
+    public void startCreation(String user, String email){
+        if (!manager.sessionHelper().isLoggedIn()){
+            manager.sessionHelper().login(manager.property("web.username"), manager.property("web.password"));
+        }
+        manager.driver.get(String.format("%s/manage_user_create_page.php", manager.property("web.baseUrl")));
+        type(By.name("username"), user);
+        type(By.name("realname"), user);
+        type(By.name("email"), email);
+        click(By.cssSelector("input[type='submit']"));
+    }
+
+//    public void delete(String user){
+//        if (!manager.sessionHelper().isLoggedIn()){
+//            manager.sessionHelper().login(manager.property("web.username"), manager.property("web.password"));
+//        }
+//        manager.driver().get();
+//    }
+}

@@ -50,14 +50,11 @@ public class SessionHelper extends HelperBase{
         System.out.println("This is text " + text);
         var pattern = Pattern.compile("http://\\S+");
         var matcher = pattern.matcher(text);
-        System.out.println("THIS IS MATCHER " + matcher);
         String url = "";
         if(matcher.find()){
             url = text.substring(matcher.start(), matcher.end());
-            System.out.println("This is url " + url);
         }
 //        var url = text.substring(matcher.start(), matcher.end());
-        System.out.println("THIS IS URL " + url);
         manager.driver.navigate().to(url);
     }
 
