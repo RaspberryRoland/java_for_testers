@@ -3,6 +3,7 @@ package tests;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import common.CommonFunctions;
+import io.qameta.allure.Allure;
 import model.AddressBookData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +24,10 @@ public class ContactAddTests extends TestBase {
         var contact = new AddressBookData()
                 .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10))
                 .withPhoto(randomFile("src/test/resources/images"));
-        app.contacts().createContact(contact);
+
+        Allure.step("Create contact", step -> {
+            app.contacts().createContact(contact);
+        });
     }
 
     @Test
@@ -31,16 +35,25 @@ public class ContactAddTests extends TestBase {
         var contact = new AddressBookData()
                 .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10))
                 .withPhoto(randomFile("src/test/resources/images"));
-        if (app.hbm().getGroupCount() == 0){
-            app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
-        }
+
+        Allure.step("Check precondition", step -> {
+            if (app.hbm().getGroupCount() == 0){
+                app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
+            }
+        });
+
         var group = app.hbm().getGroupList().get(0);
-
         var oldRelated = app.hbm().getContactsInGroup(group);
-        app.contacts().createContact(contact, group);
-        var newRelated = app.hbm().getContactsInGroup(group);
-        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
 
+        Allure.step("Add contact to group", step -> {
+            app.contacts().createContact(contact, group);
+        });
+
+        var newRelated = app.hbm().getContactsInGroup(group);
+
+        Allure.step("Compare old and new size of contacts in group", step -> {
+            Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+        });
     }
 
 //    @Test
@@ -125,6 +138,9 @@ public class ContactAddTests extends TestBase {
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.add(contact.withId(newContacts.get(newContacts.size() - 1).id()).withUselessFields("", "", "", "", "", "", ""));
         expectedList.sort(compareById);
-        Assertions.assertEquals(newContacts, expectedList);
+
+        Allure.step("Compare old and new size of contacts in group", step -> {
+            Assertions.assertEquals(newContacts, expectedList);
+        });
     }
 }

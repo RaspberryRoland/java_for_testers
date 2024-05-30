@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.Allure;
 import model.AddressBookData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
@@ -12,13 +13,18 @@ public class ContactDeleteTests extends TestBase {
 
     @Test
     void canRemoveContact() {
-        if (app.contacts().getCount() == 0) {
-            app.contacts().createContact(new AddressBookData());
-        }
+        Allure.step("Checking precondition", step -> {
+            if (app.contacts().getCount() == 0) {
+                app.contacts().createContact(new AddressBookData());
+            }
+        });
         var oldContacts = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
-        app.contacts().removeContact(oldContacts.get(index));
+        Allure.step("Remove contact", step -> {
+            app.contacts().removeContact(oldContacts.get(index));
+
+        });
         var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContacts);
         expectedList.remove(index);
