@@ -130,7 +130,7 @@ public class ContactHelper extends HelperBase {
     }
 
     private void selectContact(AddressBookData contact) {
-        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
+        click(By.cssSelector(String.format("input[value=%s]", contact.id())));
     }
 
     public int getCount() {
