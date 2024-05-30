@@ -102,7 +102,8 @@ public class ContactHelper extends HelperBase {
 
     private void openContactPage() {
         if (!manager.isElementPresent(By.name("middlename"))) {
-            click(By.linkText("add new"));
+//            click(By.linkText("add new"));
+            click(By.xpath("//a[@href='edit.php']"));
         }
     }
 
