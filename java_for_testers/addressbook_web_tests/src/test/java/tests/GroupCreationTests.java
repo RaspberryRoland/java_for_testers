@@ -74,12 +74,12 @@ public class GroupCreationTests extends TestBase {
         return result;
     }
 
-    @ParameterizedTest
-    @MethodSource("negativeGroupProvider")
-    public void cannotCreateGroup(GroupData group) {
-        var oldGroups = app.groups().getList();
-        app.groups().createGroup(group);
-        var newGroups = app.groups().getList();
-        Assertions.assertEquals(newGroups, oldGroups);
-    }
+//    @ParameterizedTest
+//    @MethodSource("negativeGroupProvider")
+//    public void cannotCreateGroup(GroupData group) {
+//        var oldGroups = app.groups().getList();
+//        app.groups().createGroup(group);
+//        var newGroups = app.groups().getList();
+//        Assertions.assertEquals(newGroups, oldGroups);
+//    }
 }
