@@ -43,7 +43,7 @@ public class SessionHelper extends HelperBase{
         }
     }
 
-    public void finishRegistration(String email){
+    public void finishRegistration(String email, String user, String password){
         var messages = manager.mail().receive(email, "password", Duration.ofMillis(10000));
         System.out.println("This is messages " + messages);
         var text = messages.get(0).content();
@@ -55,7 +55,12 @@ public class SessionHelper extends HelperBase{
             url = text.substring(matcher.start(), matcher.end());
         }
 //        var url = text.substring(matcher.start(), matcher.end());
-        manager.driver.navigate().to(url);
+        manager.driver().navigate().to(url);
+        type(By.xpath("//*[@id='realname']"), user);
+        type(By.xpath("//*[@id='password']"), password);
+        type(By.xpath("//*[@id='password-confirm']"), password);
+        click(By.xpath("//button[@type='submit']"));
+
     }
 
 }

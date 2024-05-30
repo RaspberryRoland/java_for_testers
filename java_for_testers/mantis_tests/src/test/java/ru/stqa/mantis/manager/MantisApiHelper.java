@@ -20,8 +20,9 @@ public class MantisApiHelper extends HelperBase{
         RequestBody body = RequestBody.create(String.format("{\"username\":\"%s\",\"email\":\"%s\"}", user, email), JSON);
         System.out.println("This is my body " + body);
         Request request = new Request.Builder()
-                .url(String.format("%s/signup.php", manager.property("web.baseUrl")))
+                .url(String.format("%s/api/rest/users", manager.property("web.baseUrl")))
                 .post(body)
+                .header("Authorization", manager.property("apiKey"))
                 .build();
         System.out.println("This is my request " + request);
         try (Response response = client.newCall(request).execute()) {

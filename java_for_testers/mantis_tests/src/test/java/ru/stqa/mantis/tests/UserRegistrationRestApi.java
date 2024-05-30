@@ -28,8 +28,8 @@ public class UserRegistrationRestApi extends TestBase{
 
         // извлекаем ссылку из письма
         // проходим по ссылке и завершаем регистрацию пользователя (браузер)
-        app.sessionHelper().finishRegistration(email);
-
+        app.sessionHelper().finishRegistration(email, user, password);
+//
         app.http().login(user, password);
         Assertions.assertTrue(app.http().isLoggedIn());
     }

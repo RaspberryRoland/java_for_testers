@@ -28,7 +28,7 @@ public class UserRegistrationTests extends TestBase{
 
         // извлекаем ссылку из письма
         // проходим по ссылке и завершаем регистрацию пользователя (браузер)
-        app.sessionHelper().finishRegistration(email);
+//        app.sessionHelper().finishRegistration(email);
 
         // проверяем, что пользователь может залогиниться (HttpSessionHelper)
         app.http().login(user.name(), "password");
