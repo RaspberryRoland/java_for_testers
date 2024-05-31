@@ -209,7 +209,7 @@ public class ContactHelper extends HelperBase {
     }
 
     private void selectGroupFromAbove(GroupData group) {
-        click(By.xpath("//*[@name='group']/option[3]"));
+        click(By.xpath(String.format("//*[@name='group']/*[@value='%s']", group.id())));
     }
 
     public String getPhones(AddressBookData contact) {

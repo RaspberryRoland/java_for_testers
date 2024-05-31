@@ -75,7 +75,7 @@ public class ContactAddTests extends TestBase {
             app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
         }
         for (int j = 0; j < contacts.size(); j++) {
-            for (int k = 0; j < groups.size(); k++){
+            for (int k = 0; k < groups.size(); k++){
                 if (contacts.get(j).groupId() != groups.get(k).id()){
                     contactId = contacts.get(j).id();
                     cont = contacts.get(j);
