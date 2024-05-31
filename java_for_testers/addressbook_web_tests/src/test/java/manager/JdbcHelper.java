@@ -40,7 +40,7 @@ public class JdbcHelper extends HelperBase{
             while (result.next()){
                 contacts.add(new AddressBookData()
                         .withGroupId(result.getString("group_id"))
-                        .withId("id"));
+                        .withId(result.getString("id")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

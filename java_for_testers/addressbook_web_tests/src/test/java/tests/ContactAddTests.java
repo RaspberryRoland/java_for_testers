@@ -65,6 +65,9 @@ public class ContactAddTests extends TestBase {
         var contacts = app.jdbc().getContactList();
         String contactId = null;
         String groupId = null;
+        GroupData group = new GroupData();
+        AddressBookData cont = new AddressBookData();
+
         if (app.hbm().getGroupCount() == 0){
             app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
         }
@@ -75,27 +78,26 @@ public class ContactAddTests extends TestBase {
             for (int k = 0; j < groups.size(); k++){
                 if (contacts.get(j).groupId() != groups.get(k).id()){
                     contactId = contacts.get(j).id();
+                    cont = contacts.get(j);
+                    System.out.println("THIS IS CONTACT ID: " + contactId);
+
                     groupId = groups.get(k).id();
+                    group = groups.get(k);
+                    System.out.println("THIS IS GROUPID: " + groupId);
                     break;
                 }
             }
         }
-        GroupData group;
-        AddressBookData cont;
         if (contactId == null){
             app.contacts().createContact(new AddressBookData().withFirstname("Alone contact without id"));
             cont = app.hbm().getContactList().get(contacts.size() - 1);
         }
-        else {
-            cont = app.hbm().getContactList().get(Integer.parseInt(contactId));
-        }
+
         if(groupId == null){
-            app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
+            app.groups().createGroup(new GroupData().withName("New contact!"));
             group = app.hbm().getGroupList().get(groups.size() - 1);
         }
-        else {
-            group = app.hbm().getGroupList().get(Integer.parseInt(groupId));
-        }
+
         var oldRelated = app.hbm().getContactsInGroup(group);
         app.contacts().addContact(cont, group);
         var newRelated = app.hbm().getContactsInGroup(group);
