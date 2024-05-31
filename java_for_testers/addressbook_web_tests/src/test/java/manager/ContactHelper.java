@@ -192,7 +192,9 @@ public class ContactHelper extends HelperBase {
     }
 
     private void selectGroupToAdd(GroupData group) {
-        click(By.xpath("//*[@name='to_group']/option[1]"));
+        click(By.xpath(String.format("//*[@name='to_group']/*[@value='%s']", group.id())));
+//        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
+
     }
 
     public void deleteContactFromGroup( AddressBookData contact, GroupData group){

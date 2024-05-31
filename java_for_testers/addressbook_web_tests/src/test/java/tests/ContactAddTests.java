@@ -56,40 +56,51 @@ public class ContactAddTests extends TestBase {
         });
     }
 
-//    @Test
-//    void canAddContactToGroup(){
-////        var contact = new AddressBookData()
-////                .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10))
-////                .withPhoto(randomFile("src/test/resources/images"));
-//        app.contacts().checkContactsWithoutGroups();
-//        if (app.hbm().getGroupCount() == 0){
-//            app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
-//        }
-//        if (app.contacts().getCount() == 0) {
-//            app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
-//        }
-//        var group = app.hbm().getGroupList().get(0);
-////        var cont = app.hbm().getContactList().get(0);
-//        var groupSize = app.hbm().getGroupCount();
-//        var contactSize = app.hbm().getContactList().size();
-//        int count = 0;
-//        for (int i = 0; i < contactSize; i++) {
-//            var cont = app.hbm().getContactList().get(i);
-//            if (app.hbm().getContactGroup(cont).size() < groupSize){
-//                cont = app.hbm().getContactList().get(0);
-//                count++;
-//                break;
-//            }
-//        }
-//        if (count == 0) {
-//            app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
-//        }
-//        var oldRelated = app.hbm().getContactGroup();
-//        app.contacts().addContact(cont, group);
-//        var newRelated = app.hbm().getContactsInGroup(group);
-//        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
-//
-//    }
+    @Test
+    void canAddContactToGroup(){
+//        var contact = new AddressBookData()
+//                .withFirstNameAndLastNameOnly(CommonFunctions.randomString(10), CommonFunctions.randomString(10))
+//                .withPhoto(randomFile("src/test/resources/images"));
+        var groups = app.jdbc().getGroupList();
+        var contacts = app.jdbc().getContactList();
+        String contactId = null;
+        String groupId = null;
+        if (app.hbm().getGroupCount() == 0){
+            app.hbm().createGroup(new GroupData("", "name", "header", "footer"));
+        }
+        if (app.contacts().getCount() == 0) {
+            app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
+        }
+        for (int j = 0; j < contacts.size(); j++) {
+            for (int k = 0; j < groups.size(); k++){
+                if (contacts.get(j).groupId() != groups.get(k).id()){
+                    contactId = contacts.get(j).id();
+                    groupId = groups.get(k).id();
+                    break;
+                }
+            }
+        }
+        GroupData group;
+        AddressBookData cont;
+        if (contactId == null){
+            app.contacts().createContact(new AddressBookData().withFirstname("Alone contact without id"));
+            cont = app.hbm().getContactList().get(contacts.size() - 1);
+        }
+        else {
+            cont = app.hbm().getContactList().get(Integer.parseInt(contactId));
+        }
+        if(groupId == null){
+            app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
+            group = app.hbm().getGroupList().get(groups.size() - 1);
+        }
+        else {
+            group = app.hbm().getGroupList().get(Integer.parseInt(groupId));
+        }
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().addContact(cont, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+    }
 
     public static List<AddressBookData> contactProvider() throws IOException {
         var result = new ArrayList<AddressBookData>();
