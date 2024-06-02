@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GroupCreationTests extends TestBase {
@@ -70,7 +69,7 @@ public class GroupCreationTests extends TestBase {
     }
 
     public static List<GroupData> negativeGroupProvider() {
-        var result = new ArrayList<GroupData>(List.of(new GroupData("", "group name'", ":", "")));
+        var result = new ArrayList<GroupData>(List.of(new GroupData("", "group name'", ":", "", "")));
         return result;
     }
 

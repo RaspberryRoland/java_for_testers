@@ -31,15 +31,31 @@ public class JdbcHelper extends HelperBase{
         return groups;
     }
 
-    public List<AddressBookData> getContactList(){
-        var contacts = new ArrayList<AddressBookData>();
+    public List<GroupData> getContactsInGroup(){
+        var groups = new ArrayList<GroupData>();
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost/addressbook", "root", "");
              var statement = conn.createStatement();
              var result = statement.executeQuery("SELECT id, group_id FROM address_in_groups"))
         {
             while (result.next()){
-                contacts.add(new AddressBookData()
+                groups.add(new GroupData()
                         .withGroupId(result.getString("group_id"))
+                        .withId(result.getString("id")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return groups;
+    }
+
+    public List<AddressBookData> getContactList(){
+        var contacts = new ArrayList<AddressBookData>();
+        try (var conn = DriverManager.getConnection("jdbc:mysql://localhost/addressbook", "root", "");
+             var statement = conn.createStatement();
+             var result = statement.executeQuery("SELECT id FROM addressbook"))
+        {
+            while (result.next()){
+                contacts.add(new AddressBookData()
                         .withId(result.getString("id")));
             }
         } catch (SQLException e) {

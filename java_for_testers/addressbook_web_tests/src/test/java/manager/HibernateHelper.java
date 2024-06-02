@@ -8,7 +8,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +31,7 @@ public class HibernateHelper extends HelperBase{
     }
 
     private static GroupData convert(GroupRecord record) {
-        return new GroupData("" + record.id, record.name, record.header, record.footer);
+        return new GroupData("" + record.id, record.name, record.header, record.footer, "");
     }
 
     private static GroupRecord convert(GroupData data) {
