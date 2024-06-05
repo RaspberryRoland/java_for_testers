@@ -33,67 +33,20 @@ public class ContactDeleteTests extends TestBase {
 
     @Test
     void canRemoveContactFromGroup() {
-        var groups = app.jdbc().getGroupList();
-        var contacts = app.jdbc().getContactList();
-        String contactId = null;
-        String groupId = null;
-        var contactsInGroup = app.jdbc().getContactsInGroup();
-        GroupData group = new GroupData();
-        AddressBookData cont = new AddressBookData();
-
-        if (app.hbm().getGroupCount() == 0){
-            app.hbm().createGroup(new GroupData("", "name", "header", "footer", ""));
-            groups = app.jdbc().getGroupList();
-            group = groups.get(0);
+        if(app.jdbc().getGroupList().size() != 0){
+            app.groups().removeAllGroups();
         }
-        if (app.contacts().getCount() == 0) {
+        app.hbm().createGroup(new GroupData("", "name", "header", "footer", ""));
+        var group = app.jdbc().getGroupList().get(0);
+        if (app.jdbc().getContactList().size() == 0){
             app.contacts().createContact(new AddressBookData().withFirstname("New contact!"));
-            contacts = app.jdbc().getContactList();
-            cont = contacts.get(0);
         }
-
-        if (contactsInGroup.size() == 0){
-            group = groups.get(0);
-            cont = contacts.get(0);
-            app.contacts().addContact(cont, group);
-            var oldRelated = app.hbm().getContactsInGroup(group);
-            app.contacts().deleteContactFromGroup(cont, group);
-            var newRelated = app.hbm().getContactsInGroup(group);
-            Assertions.assertEquals(oldRelated.size() - 1, newRelated.size());
-        }
-
-        else {
-            for (int j = 0; j < contacts.size(); j++) {
-                for (int k = 0; k < contactsInGroup.size(); k++) {
-                    if (contacts.get(j).id().equals(contactsInGroup.get(k).id())) {
-                        contactId = contacts.get(j).id();
-                        System.out.println("CONTACT ID " + contacts.get(j).id());
-                        System.out.println("CONTACT2 ID " + contactsInGroup.get(k).id());
-                        System.out.println("HELP" + contactId);
-                        cont = contacts.get(j);
-
-                        groupId = contactsInGroup.get(k).groupId();
-                        group = groups.get(k);
-                        break;
-                    }
-                }
-            }
-            if (contactId == null || groupId == null){
-                app.contacts().createContact(new AddressBookData().withFirstname("Alone contact without id"));
-                app.groups().createGroup(new GroupData().withName("New contact!"));
-                contacts = app.jdbc().getContactList();
-                cont = app.hbm().getContactList().get(contacts.size() - 1);
-
-                groups = app.jdbc().getGroupList();
-                group = app.hbm().getGroupList().get(groups.size() - 1);
-                app.contacts().addContact(cont, group);
-            }
-
-            var oldRelated = app.hbm().getContactsInGroup(group);
-            app.contacts().deleteContactFromGroup(cont, group);
-            var newRelated = app.hbm().getContactsInGroup(group);
-            Assertions.assertEquals(oldRelated.size() - 1, newRelated.size());
-        }
+        var cont = app.jdbc().getContactList().get(0);
+        app.contacts().addContact(cont, group);
+        var oldRelated = app.jdbc().getContactsInGroup().size();
+        app.contacts().deleteContactFromGroup(cont, group);
+        var newRelated = app.jdbc().getContactsInGroup().size();
+        Assertions.assertEquals(oldRelated - 1, newRelated);
     }
 
     @Test
